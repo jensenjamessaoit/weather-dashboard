@@ -42,16 +42,12 @@ const localstorageHandler = (data) => {
     let currentData = localStorage.getItem('weatherDashboard');
     let recentSearch = currentData ? JSON.parse(currentData) : [];
 
-    console.log(currentData);
-
-    console.log(recentSearch)
-
     // if their localStorage array has more than 6 items
     if(recentSearch.length > 6) {
         recentSearch.shift();
-        recentSearch.push(JSON.stringify(data));
+        recentSearch.push(data);
     } else {
-        recentSearch.push(JSON.stringify(data));
+        recentSearch.push(data);
     }
 
     console.log(recentSearch);
