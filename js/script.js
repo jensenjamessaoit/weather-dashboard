@@ -4,12 +4,12 @@ const weatherKey = '9e2cf0adc814e249e7716e4caf6c4dab';
 const searchHandler = async (event) => {
     event.preventDefault();
     console.log('hit searchHandlers');
-    //get city they want to search for
+    // get city they want to search for
     const searchCity = document.querySelector('#search-input').value.trim();
 
     localstorageHandler(searchCity);
-    //fetch
-    // fetchWeather(searchCity);
+    // fetch
+    fetchWeather(searchCity);
 };
 
 // data fetcher
