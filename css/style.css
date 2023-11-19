@@ -1,3 +1,20 @@
-main {
+:root {
+    --background-color: rgb(48, 44, 38);
+}
+
+body {
+    color: white;
+    background: var(--background-color);
+}
+
+#forecast {
     display: flex;
+}
+
+#current-weather {
+    display: flex;
+}
+
+#tw {
+    width: 50rem;
 }
