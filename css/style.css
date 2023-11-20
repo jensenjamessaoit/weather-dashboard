@@ -11,9 +11,6 @@ body {
     display: flex;
 }
 
-#current-weather {
-    display: flex;
-}
 
 #tw {
     width: 50rem;

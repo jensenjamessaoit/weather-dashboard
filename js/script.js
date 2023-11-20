@@ -9,9 +9,10 @@ const searchHandler = async (event) => {
     
     // fetch
     fetchWeather(searchCity);
+    displayLocalStorage();
 };
 
-// data fetcher
+// data fetcher and display weather
 const fetchWeather = async (city) => {
     // get latitude and longitude
     await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`)
@@ -30,12 +31,14 @@ const fetchWeather = async (city) => {
             return response.json();
         })
         .then(async (data) =>{
+            // display weather function
             displayWeather(data);
         });
     })
 
 }
 
+// display weather
 const displayWeather = (weatherData) => {
     console.log(weatherData);
 
@@ -55,6 +58,7 @@ const displayWeather = (weatherData) => {
     twWind.textContent = currentWeather.wind.speed;
     twHumidity.textContent = currentWeather.main.humidity;
 
+
     // forecast 1
     const f1Date = document.querySelector('#f1').children[0].children[0];
     const f1Icon = document.querySelector('#f1').children[0].children[1];
@@ -62,11 +66,82 @@ const displayWeather = (weatherData) => {
     const f1Wind = document.querySelector('#f1').children[2].children[0];
     const f1Humidity = document.querySelector('#f1').children[3].children[0];
 
-    const f1Weather = weatherData.list[8];
+    const f1Weather = weatherData.list[7];
     console.log(f1Weather);
 
     f1Date.textContent = f1Weather.dt_txt.split(" ")[0];
+    f1Icon.src = `https://openweathermap.org/img/wn/${f1Weather.weather[0].icon}@2x.png`
+    f1Temp.textContent = f1Weather.main.temp;
+    f1Wind.textContent = f1Weather.wind.speed;
+    f1Humidity.textContent = f1Weather.main.humidity;
 
+
+    // forecast 2
+    const f2Date = document.querySelector('#f2').children[0].children[0];
+    const f2Icon = document.querySelector('#f2').children[0].children[1];
+    const f2Temp = document.querySelector('#f2').children[1].children[0];
+    const f2Wind = document.querySelector('#f2').children[2].children[0];
+    const f2Humidity = document.querySelector('#f2').children[3].children[0];
+
+    const f2Weather = weatherData.list[15];
+    console.log(f2Weather);
+
+    f2Date.textContent = f2Weather.dt_txt.split(" ")[0];
+    f2Icon.src = `https://openweathermap.org/img/wn/${f2Weather.weather[0].icon}@2x.png`
+    f2Temp.textContent = f2Weather.main.temp;
+    f2Wind.textContent = f2Weather.wind.speed;
+    f2Humidity.textContent = f2Weather.main.humidity;
+
+
+    // forecast 3
+    const f3Date = document.querySelector('#f3').children[0].children[0];
+    const f3Icon = document.querySelector('#f3').children[0].children[1];
+    const f3Temp = document.querySelector('#f3').children[1].children[0];
+    const f3Wind = document.querySelector('#f3').children[2].children[0];
+    const f3Humidity = document.querySelector('#f3').children[3].children[0];
+
+    const f3Weather = weatherData.list[23];
+    console.log(f3Weather);
+
+    f3Date.textContent = f3Weather.dt_txt.split(" ")[0];
+    f3Icon.src = `https://openweathermap.org/img/wn/${f3Weather.weather[0].icon}@2x.png`
+    f3Temp.textContent = f3Weather.main.temp;
+    f3Wind.textContent = f3Weather.wind.speed;
+    f3Humidity.textContent = f3Weather.main.humidity;
+
+
+    // forecast 4
+    const f4Date = document.querySelector('#f4').children[0].children[0];
+    const f4Icon = document.querySelector('#f4').children[0].children[1];
+    const f4Temp = document.querySelector('#f4').children[1].children[0];
+    const f4Wind = document.querySelector('#f4').children[2].children[0];
+    const f4Humidity = document.querySelector('#f4').children[3].children[0];
+
+    const f4Weather = weatherData.list[31];
+    console.log(f4Weather);
+
+    f4Date.textContent = f4Weather.dt_txt.split(" ")[0];
+    f4Icon.src = `https://openweathermap.org/img/wn/${f4Weather.weather[0].icon}@2x.png`
+    f4Temp.textContent = f4Weather.main.temp;
+    f4Wind.textContent = f4Weather.wind.speed;
+    f4Humidity.textContent = f4Weather.main.humidity;
+
+    
+    // forecast 5
+    const f5Date = document.querySelector('#f5').children[0].children[0];
+    const f5Icon = document.querySelector('#f5').children[0].children[1];
+    const f5Temp = document.querySelector('#f5').children[1].children[0];
+    const f5Wind = document.querySelector('#f5').children[2].children[0];
+    const f5Humidity = document.querySelector('#f5').children[3].children[0];
+
+    const f5Weather = weatherData.list[39];
+    console.log(f5Weather);
+
+    f5Date.textContent = f5Weather.dt_txt.split(" ")[0];
+    f5Icon.src = `https://openweathermap.org/img/wn/${f5Weather.weather[0].icon}@2x.png`
+    f5Temp.textContent = f5Weather.main.temp;
+    f5Wind.textContent = f5Weather.wind.speed;
+    f5Humidity.textContent = f5Weather.main.humidity;
 }
 
 
@@ -88,7 +163,36 @@ const localstorageHandler = (data) => {
     
     // set localStorage
     localStorage.setItem('weatherDashboard', JSON.stringify(recentSearch));
+    
 }
 
+const displayLocalStorage = () => {
+    let storageData = localStorage.getItem('weatherDashboard');
+    let recentSearch = storageData ? JSON.parse(storageData) : [];
+    recentSearch.reverse();
+
+    const searhHistoryElement = document.querySelector('#search-history');
+
+    // clear the element
+    searhHistoryElement.innerHTML = "";
+
+    // loop to append child elements
+    for(let i = 0; i < (recentSearch.length -1); i++){
+        let button = document.createElement('button');
+        button.textContent = recentSearch[i];
+
+        //adds btn class for bootstrap
+        button.classList.add('btn');
+        button.classList.add('btn-info');
+
+        button.addEventListener('click', () => {
+            fetchWeather(recentSearch[i])
+        });
+
+        searhHistoryElement.appendChild(button);
+    }
+}
+
+displayLocalStorage();
 
 document.querySelector('#search-form').addEventListener('submit', searchHandler);
