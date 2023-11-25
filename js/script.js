@@ -15,7 +15,7 @@ const searchHandler = async (event) => {
 // data fetcher and display weather
 const fetchWeather = async (city) => {
     // get latitude and longitude
-    await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`)
+    await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`)
     .then((response) => {
         return response.json();
     })
